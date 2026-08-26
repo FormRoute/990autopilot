@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>990 Autopilot — Your Nonprofit's IRS Form 990-N, Filed Automatically Every Year | $29/yr</title>
+<meta name="description" content="File your IRS Form 990-N (e-Postcard) in 5 minutes — then never think about it again. We file it for you every year, automatically, and email you the IRS acceptance record. $29/year, everything included.">
+<link rel="canonical" href="https://990autopilot.com/">
+<style>
+  :root{
+    --navy:#0d2b45; --navy2:#123a5e; --green:#1e9e6a; --green-d:#177a52;
+    --amber:#b45309; --amber-bg:#fef3e2; --ink:#1a2733; --mut:#5b6b7a;
+    --line:#e3e9ef; --bg:#f7fafc; --card:#ffffff; --rad:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  a{color:var(--green-d)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+
+  /* Header nav (scoped — never style bare `nav`) */
+  .top{position:fixed;top:0;left:0;width:100%;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .top-in{max-width:1060px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-weight:800;font-size:1.15rem;color:var(--navy);text-decoration:none}
+  .logo span{color:var(--green)}
+  .top-links{display:flex;gap:22px;align-items:center}
+  .top-links a{color:var(--mut);text-decoration:none;font-size:.92rem}
+  .top-links a:hover{color:var(--navy)}
+  .btn{display:inline-block;background:var(--green);color:#fff !important;font-weight:700;text-decoration:none;border:none;cursor:pointer;border-radius:8px;padding:10px 20px;font-size:.95rem}
+  .btn:hover{background:var(--green-d)}
+  .btn-big{padding:15px 32px;font-size:1.08rem;border-radius:10px}
+
+  /* Hero */
+  .hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:120px 0 64px;text-align:center}
+  .hero h1{font-size:2.35rem;line-height:1.25;max-width:780px;margin:0 auto 18px;font-weight:800}
+  .hero h1 em{font-style:normal;color:#7fe0b4}
+  .hero p.sub{font-size:1.15rem;color:#c7d5e2;max-width:640px;margin:0 auto 28px}
+  .hero .price-line{margin:22px 0 6px;font-size:1rem;color:#9fb3c4}
+  .hero .price-line b{color:#fff;font-size:1.25rem}
+  .trust{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-size:.9rem;color:#aebfce}
+
+  /* Warning band */
+  .band{background:var(--amber-bg);border-top:1px solid #f3ddc0;border-bottom:1px solid #f3ddc0;padding:16px 0;text-align:center;font-size:.98rem;color:var(--amber)}
+  .band b{color:#8a3c05}
+
+  section{padding:58px 0}
+  h2{font-size:1.7rem;color:var(--navy);text-align:center;margin-bottom:10px}
+  .lead{text-align:center;color:var(--mut);max-width:640px;margin:0 auto 36px}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:26px}
+  .step .n{width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .step h3{color:var(--navy);margin-bottom:8px;font-size:1.08rem}
+  .step p{font-size:.95rem;color:var(--mut)}
+
+  /* Calculator */
+  .calc{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);max-width:560px;margin:0 auto;padding:30px}
+  .calc label{font-weight:600;font-size:.95rem;display:block;margin-bottom:8px}
+  .calc select{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;font-size:1rem;background:#fff}
+  .calc-out{margin-top:18px;padding:16px;border-radius:8px;background:var(--bg);font-size:1rem;display:none}
+  .calc-out.show{display:block}
+  .calc-out .dl{font-size:1.3rem;font-weight:800;color:var(--navy)}
+  .calc-note{font-size:.85rem;color:var(--mut);margin-top:14px}
+
+  /* Pricing */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:760px;margin:0 auto}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:28px}
+  .pcard.hot{border:2px solid var(--green);position:relative}
+  .pcard.hot .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:20px}
+  .pcard h3{color:var(--navy);margin-bottom:4px}
+  .pcard .pr{font-size:2rem;font-weight:800;color:var(--navy);margin:8px 0}
+  .pcard .pr small{font-size:.95rem;color:var(--mut);font-weight:400}
+  .pcard ul{list-style:none;margin-top:14px}
+  .pcard li{padding:7px 0;font-size:.93rem;color:var(--ink);border-bottom:1px dashed var(--line)}
+  .pcard li:last-child{border:none}
+  .pcard li.no{color:var(--mut);text-decoration:none}
+  .pcard li:before{content:"✓ ";color:var(--green);font-weight:700}
+  .pcard li.no:before{content:"✗ ";color:#c0392b}
+
+  /* Form */
+  .formcard{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);max-width:680px;margin:0 auto;padding:34px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fgrid .full{grid-column:1/-1}
+  .fld label{font-size:.88rem;font-weight:600;display:block;margin-bottom:5px}
+  .fld label small{font-weight:400;color:var(--mut)}
+  .fld input,.fld select{width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;font-size:.98rem}
+  .fld input:focus,.fld select:focus{outline:2px solid var(--green);border-color:transparent}
+  .chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:.9rem}
+  .chk input{margin-top:4px;width:16px;height:16px;flex:none}
+  .total-box{margin-top:22px;padding:16px;background:var(--bg);border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+  .total-box b{font-size:1.3rem;color:var(--navy)}
+  .renew-note{font-size:.82rem;color:var(--mut);margin-top:10px}
+  #formErr{display:none;margin-top:14px;padding:12px;border-radius:8px;background:#fdecea;color:#b03a2e;font-size:.92rem}
+  #payBtn{width:100%;margin-top:18px}
+
+  /* FAQ */
+  .faq{max-width:720px;margin:0 auto}
+  .faq details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;padding:16px 20px}
+  .faq summary{font-weight:600;cursor:pointer;color:var(--navy)}
+  .faq p{margin-top:10px;font-size:.95rem;color:var(--mut)}
+
+  /* Footer */
+  footer{background:var(--navy);color:#9fb3c4;padding:44px 0;font-size:.85rem;margin-top:40px}
+  footer a{color:#c7d5e2}
+  .f-nav{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:18px;position:static}
+  .f-disc{line-height:1.7;max-width:860px}
+
+  @media(max-width:760px){
+    .hero h1{font-size:1.7rem}
+    .steps,.compare,.fgrid{grid-template-columns:1fr}
+    .top-links a:not(.btn){display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <a class="logo" href="/">990<span>Autopilot</span></a>
+    <div class="top-links">
+      <a href="#how">How it works</a>
+      <a href="#deadline">Deadline calculator</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn" href="#file">File my 990-N</a>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Your nonprofit's IRS e-Postcard.<br>Filed this year — <em>and every year after, automatically.</em></h1>
+    <p class="sub">For small nonprofits with $50,000 or less in gross receipts. Answer 8 questions once. We e-file your Form 990-N with the IRS every year and email you the acceptance record — so your tax-exempt status is never at risk.</p>
+    <a class="btn btn-big" href="#file">File my 990-N — $29/year</a>
+    <div class="price-line">One flat price: <b>$29/year</b> · everything included · cancel anytime</div>
+    <div class="trust">
+      <span>✓ IRS-authorized e-file transmission</span>
+      <span>✓ Acceptance record emailed to you</span>
+      <span>✓ Reminder before every filing</span>
+      <span>✓ One-click cancel</span>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="wrap"><b>Why this matters:</b> miss your 990-N three years in a row and the IRS <b>automatically revokes your tax-exempt status</b> — no warning letter required. Over 60,000 organizations lost their status last year alone. Getting it back costs $275+ and months of paperwork.</div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <h2>Set it once. Never miss it again.</h2>
+    <p class="lead">The 990-N takes 8 answers. The hard part is remembering it — every single year, even when the treasurer changes. That's the part we take off your plate.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Tell us about your organization</h3><p>Legal name, EIN, address, fiscal year — the same 8 items the IRS asks for. Takes about 5 minutes, once.</p></div>
+      <div class="step"><div class="n">2</div><h3>We e-file with the IRS</h3><p>Your 990-N is transmitted through an IRS-authorized e-file provider. You get the IRS acceptance record by email, usually the same day.</p></div>
+      <div class="step"><div class="n">3</div><h3>Every year after: automatic</h3><p>45 days before your deadline we email you: "anything changed?" If nothing has, you do nothing. We file, you get the receipt. Your status stays safe — even when your board turns over.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="deadline" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <h2>When is your 990-N due?</h2>
+    <p class="lead">The deadline is the 15th day of the 5th month after your fiscal year ends — different for every organization.</p>
+    <div class="calc">
+      <label for="fyEnd">When does your organization's fiscal (accounting) year end?<br><small style="font-weight:400;color:var(--mut)">Most small nonprofits use December. Check your bylaws or a past filing if unsure.</small></label>
+      <select id="fyEnd" onchange="calcDeadline()">
+        <option value="">— Select month —</option>
+        <option value="12">December (most common)</option>
+        <option value="6">June</option>
+        <option value="1">January</option><option value="2">February</option>
+        <option value="3">March</option><option value="4">April</option>
+        <option value="5">May</option><option value="7">July</option>
+        <option value="8">August</option><option value="9">September</option>
+        <option value="10">October</option><option value="11">November</option>
+      </select>
+      <div class="calc-out" id="calcOut"></div>
+      <p class="calc-note"><b>Already missed it?</b> There is no late-filing penalty for Form 990-N. File now and the year still counts — what matters is never missing three in a row. <a href="#file">File it today.</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>One price. Nothing to remember.</h2>
+    <p class="lead">Typical filing sites charge about the same — but only file once, and count on you to remember to come back next year.</p>
+    <div class="compare">
+      <div class="pcard">
+        <h3>Typical filing site</h3>
+        <div class="pr">~$20 <small>each time you remember</small></div>
+        <ul>
+          <li>Files this year's 990-N</li>
+          <li class="no">Files next year automatically</li>
+          <li class="no">Deadline monitoring</li>
+          <li class="no">Survives treasurer turnover</li>
+          <li class="no">Filing history in one place</li>
+        </ul>
+      </div>
+      <div class="pcard hot">
+        <span class="tag">990 AUTOPILOT</span>
+        <h3>Autopilot subscription</h3>
+        <div class="pr">$29 <small>/year, everything included</small></div>
+        <ul>
+          <li>Files this year's 990-N today</li>
+          <li>Files every following year automatically</li>
+          <li>Reminder 45 days before each deadline</li>
+          <li>IRS acceptance record emailed &amp; stored</li>
+          <li>Cancel anytime, one click</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="file" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <h2>File your 990-N now</h2>
+    <p class="lead">The same information the IRS asks for — nothing more. Your filing is transmitted after checkout, and your IRS acceptance record is emailed to you.</p>
+    <div class="formcard">
+      <div class="fgrid">
+        <div class="fld full"><label for="orgName">Organization legal name <small>(as registered with the IRS)</small></label><input id="orgName" type="text" autocomplete="organization"></div>
+        <div class="fld full"><label for="dba">Other names used (DBA) <small>— optional</small></label><input id="dba" type="text"></div>
+        <div class="fld"><label for="ein">EIN <small>(XX-XXXXXXX)</small></label><input id="ein" type="text" inputmode="numeric" placeholder="12-3456789" maxlength="10"></div>
+        <div class="fld"><label for="fyEndForm">Fiscal year end month</label>
+          <select id="fyEndForm">
+            <option value="12">December (most common)</option>
+            <option value="1">January</option><option value="2">February</option>
+            <option value="3">March</option><option value="4">April</option>
+            <option value="5">May</option><option value="6">June</option>
+            <option value="7">July</option><option value="8">August</option>
+            <option value="9">September</option><option value="10">October</option>
+            <option value="11">November</option>
+          </select>
+        </div>
+        <div class="fld full"><label for="street">Mailing address — street</label><input id="street" type="text" autocomplete="street-address"></div>
+        <div class="fld"><label for="city">City</label><input id="city" type="text"></div>
+        <div class="fld" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label for="state">State</label><input id="state" type="text" maxlength="2" placeholder="CA"></div>
+          <div><label for="zip">ZIP</label><input id="zip" type="text" inputmode="numeric" maxlength="10"></div>
+        </div>
+        <div class="fld"><label for="officerName">Principal officer — name</label><input id="officerName" type="text"></div>
+        <div class="fld"><label for="officerTitle">Principal officer — title <small>(President, Treasurer…)</small></label><input id="officerTitle" type="text"></div>
+        <div class="fld full"><label for="website">Organization website <small>— optional</small></label><input id="website" type="text" placeholder="https://"></div>
+        <div class="fld full"><label for="email">Your email <small>(where we send the IRS acceptance record)</small></label><input id="email" type="email" autocomplete="email"></div>
+      </div>
+
+      <div class="chk"><input type="checkbox" id="under50k"><label for="under50k">I confirm this organization's gross receipts are <b>normally $50,000 or less</b>, making it eligible to file Form 990-N. <a href="#faq" target="_self">Not sure?</a></label></div>
+      <div class="chk"><input type="checkbox" id="notTerminated"><label for="notTerminated">I confirm this organization <b>has not terminated</b> (gone out of business).</label></div>
+      <div class="chk"><input type="checkbox" id="authorize"><label for="authorize">I am authorized to act for this organization, and I authorize 990 Autopilot to e-file its Form 990-N <b>this year and each following year</b> based on the information above — after emailing me at least 45 days before each annual filing so I can review, update, or cancel.</label></div>
+
+      <div class="total-box"><span>990 Autopilot — annual subscription</span><b>$29.00/yr</b></div>
+      <p class="renew-note">Renews automatically at $29/year. We email you 45 days before every renewal and filing — cancel anytime with one click from that email or by writing to support. No filing is ever submitted without that advance notice.</p>
+
+      <div id="formErr"></div>
+      <button class="btn btn-big" id="payBtn" onclick="submitOrder()">Continue to secure payment →</button>
+      <p class="renew-note" style="text-align:center">Payments processed by Stripe. We never see your card number.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <div class="faq">
+      <details><summary>Is my organization eligible for Form 990-N?</summary><p>Most tax-exempt organizations whose annual gross receipts are normally $50,000 or less can file Form 990-N instead of the longer Form 990 or 990-EZ. "Normally" is an IRS 3-year average test. Churches and certain other organizations are not required to file at all. If you're unsure, check your determination letter or ask a tax professional — we can't make this determination for you.</p></details>
+      <details><summary>What if we grow past $50,000?</summary><p>Then you'll need Form 990-EZ or 990 instead, which we don't file. Our annual "anything changed?" email asks about this specifically — if you've grown, we pause your subscription (no charge for that year) and point you to appropriate options. That's a good problem to have.</p></details>
+      <details><summary>We already missed our deadline. Is it too late?</summary><p>No — and this surprises people: there's no monetary penalty for filing a 990-N late. What matters is not missing three consecutive years, which triggers automatic revocation of tax-exempt status. File now and the year counts.</p></details>
+      <details><summary>We haven't filed for two years. Can you help?</summary><p>Yes — file the current year now, which stops the revocation clock. Note the IRS system only accepts the current and most recent prior year for 990-N; older years can't be filed retroactively, but that's okay: what matters going forward is an unbroken record, which is exactly what Autopilot maintains.</p></details>
+      <details><summary>Can't we just file free on IRS.gov ourselves?</summary><p>Yes, you can — the IRS offers free direct filing, and we tell you that plainly. What you're paying us $29 for is never having to remember it: the monitoring, the reminders, the automatic filing when officers change and institutional memory doesn't carry over. Organizations lose their exempt status not because filing is hard, but because remembering is.</p></details>
+      <details><summary>How does cancellation work?</summary><p>One click, from any email we send you, or by emailing support. If you cancel, we don't file or charge again. No phone calls, no retention offers.</p></details>
+      <details><summary>What do you do with our information?</summary><p>We store the 8 filing items above and your filing history — nothing else. No SSNs are involved in a 990-N. Your EIN and organization details are already public information in IRS records. We never sell data.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <nav class="f-nav">
+      <a href="#how">How it works</a>
+      <a href="#deadline">Deadline calculator</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#file">File now</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+    <p class="f-disc">990 Autopilot is a service of FormRoute LLC. We are a filing automation service — not a law firm, CPA firm, or tax advisor, and we are not affiliated with the IRS or any government agency. Form 990-N can be filed at no cost directly with the IRS at irs.gov; our fee is for the automation, monitoring, reminder, and record-keeping service described above. Eligibility to file Form 990-N (including the $50,000 gross-receipts test) is determined and confirmed by you. Filings are transmitted through an IRS-authorized e-file provider. Information on this site is provided for general reference only and is not tax or legal advice.</p>
+    <p class="f-disc" style="margin-top:12px">© 2026 990 Autopilot — a service of FormRoute LLC.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  // Make: "990Autopilot - Checkout Creator" (scenario 6057889)
+  window.MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/diviq4e66oyz48gmtiuhitabhrquptoc';
+
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  window.calcDeadline = function(){
+    var m = parseInt(document.getElementById('fyEnd').value, 10);
+    var out = document.getElementById('calcOut');
+    if (!m) { out.className = 'calc-out'; return; }
+    // Deadline = 15th day of 5th month after FY end
+    var dlMonth = ((m + 5 - 1) % 12) + 1;           // 1-12
+    var now = new Date();
+    // FY that ended most recently
+    var fyEndYear = (now.getMonth() + 1) > m ? now.getFullYear() : now.getFullYear() - 1;
+    var dlYear = dlMonth <= m ? fyEndYear + 1 : fyEndYear;
+    var deadline = new Date(dlYear, dlMonth - 1, 15);
+    var days = Math.ceil((deadline - now) / 86400000);
+    var msg;
+    if (days < 0) {
+      msg = '<span class="dl">' + MONTHS[dlMonth-1] + ' 15, ' + dlYear + '</span><br>Your most recent deadline was <b>' + Math.abs(days) + ' days ago</b>. Good news: there\'s no late penalty — file now and this year still counts toward keeping your status.';
+    } else if (days <= 45) {
+      msg = '<span class="dl">' + MONTHS[dlMonth-1] + ' 15, ' + dlYear + '</span><br><b style="color:var(--amber)">Only ' + days + ' days away.</b> File now and it\'s off your plate — this year and every year after.';
+    } else {
+      msg = '<span class="dl">' + MONTHS[dlMonth-1] + ' 15, ' + dlYear + '</span><br>' + days + ' days from now. File early — the IRS accepts it any time after your fiscal year closes, and Autopilot handles every year after.';
+    }
+    out.innerHTML = msg;
+    out.className = 'calc-out show';
+  };
+
+  function fail(msg, focusId){
+    var e = document.getElementById('formErr');
+    e.textContent = msg; e.style.display = 'block';
+    e.scrollIntoView({behavior:'smooth', block:'center'});
+    if (focusId) { var el = document.getElementById(focusId); if (el) el.focus(); }
+    return false;
+  }
+
+  window.submitOrder = function(){
+    document.getElementById('formErr').style.display = 'none';
+
+    var required = [
+      ['orgName','your organization’s legal name'],
+      ['ein','your EIN'],
+      ['street','your mailing address'], ['city','your city'], ['state','your state'], ['zip','your ZIP'],
+      ['officerName','your principal officer’s name'], ['officerTitle','the officer’s title'],
+      ['email','your email address']
+    ];
+    for (var i = 0; i < required.length; i++) {
+      var el = document.getElementById(required[i][0]);
+      if (!el.value.trim()) return fail('Please enter ' + required[i][1] + '.', required[i][0]);
+    }
+
+    var ein = document.getElementById('ein').value.replace(/[^0-9]/g,'');
+    if (ein.length !== 9) return fail('Your EIN should be 9 digits (format 12-3456789).', 'ein');
+
+    var email = document.getElementById('email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      return fail('That email address doesn’t look right — it’s where your IRS acceptance record goes.', 'email');
+    }
+    if (!document.getElementById('under50k').checked)      return fail('Please confirm gross receipts are normally $50,000 or less — this is the IRS eligibility test for Form 990-N.', 'under50k');
+    if (!document.getElementById('notTerminated').checked) return fail('Please confirm the organization has not terminated.', 'notTerminated');
+    if (!document.getElementById('authorize').checked)     return fail('Please confirm you’re authorized and agree to the annual filing authorization.', 'authorize');
+
+    // Compact order string — the only order token Make forwards to Stripe metadata.
+    // Format: EIN|fy_end_month|org|street|city|state|zip|officer|title|website|dba
+    var orderStr = [
+      ein.slice(0,2) + '-' + ein.slice(2),
+      document.getElementById('fyEndForm').value,
+      document.getElementById('orgName').value.trim(),
+      document.getElementById('street').value.trim(),
+      document.getElementById('city').value.trim(),
+      document.getElementById('state').value.trim().toUpperCase(),
+      document.getElementById('zip').value.trim(),
+      document.getElementById('officerName').value.trim(),
+      document.getElementById('officerTitle').value.trim(),
+      document.getElementById('website').value.trim(),
+      document.getElementById('dba').value.trim()
+    ].map(function(v){ return v.replace(/\|/g, '/'); }).join('|');
+
+    var payload = {
+      product:       '990n_autopilot',
+      order:         orderStr,
+      org_name:      document.getElementById('orgName').value.trim(),
+      dba:           document.getElementById('dba').value.trim(),
+      ein:           ein.slice(0,2) + '-' + ein.slice(2),
+      fy_end_month:  document.getElementById('fyEndForm').value,
+      street:        document.getElementById('street').value.trim(),
+      city:          document.getElementById('city').value.trim(),
+      state:         document.getElementById('state').value.trim().toUpperCase(),
+      zip:           document.getElementById('zip').value.trim(),
+      officer_name:  document.getElementById('officerName').value.trim(),
+      officer_title: document.getElementById('officerTitle').value.trim(),
+      website:       document.getElementById('website').value.trim(),
+      email:         email,
+      gross_under_50k: 'yes',
+      terminated:      'no',
+      auto_renew_consent: 'yes',
+      mode:          'subscription',
+      unit_amount:   2900,
+      interval:      'year'
+    };
+
+    if (!window.MAKE_WEBHOOK_URL) {
+      return fail('Checkout is being connected. Please email support@990autopilot.com and we’ll take care of your filing personally.');
+    }
+
+    var btn = document.getElementById('payBtn');
+    btn.disabled = true; btn.textContent = 'Preparing secure checkout…';
+
+    fetch(window.MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var url = d && (d.checkout_url || d.url);
+      if (url && String(url).indexOf('http') === 0) { window.location.href = url; return; }
+      throw new Error('bad url');
+    })
+    .catch(function(){
+      btn.disabled = false; btn.textContent = 'Continue to secure payment →';
+      fail('We couldn’t start checkout. Please try again, or email support@990autopilot.com.');
+    });
+  };
+})();
+</script>
+
+</body>
+</html>
