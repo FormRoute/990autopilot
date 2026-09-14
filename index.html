@@ -420,5 +420,138 @@
 })();
 </script>
 
+
+
+
+<!-- ══ SUPPORT CHAT WIDGET (self-contained, no external calls) ══ -->
+<style>
+#ardcb-btn{position:fixed;right:20px;bottom:20px;z-index:200;width:58px;height:58px;border-radius:50%;background:#1e9e6a;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(15,23,42,.28);display:flex;align-items:center;justify-content:center;transition:transform .15s}
+#ardcb-btn:hover{transform:scale(1.06);background:#177a52}
+#ardcb-btn svg{width:26px;height:26px;fill:#ffffff}
+#ardcb-badge{position:absolute;top:-3px;right:-3px;background:#177a52;color:#fff;font-size:.62rem;font-weight:700;border-radius:10px;padding:2px 6px;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
+#ardcb-panel{position:fixed;right:20px;bottom:88px;z-index:200;width:370px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100vh - 120px);background:#fff;border:1px solid #dde5ec;border-radius:16px;box-shadow:0 12px 40px rgba(15,23,42,.24);display:none;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+#ardcb-panel.open{display:flex}
+.ardcb-head{background:#0d2b45;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.ardcb-dot{width:9px;height:9px;border-radius:50%;background:#34d399;flex-shrink:0}
+.ardcb-head b{font-size:.95rem;display:block;line-height:1.2}
+.ardcb-head span{font-size:.72rem;color:#c3ccd6}
+.ardcb-x{margin-left:auto;background:none;border:none;color:#c3ccd6;font-size:1.3rem;cursor:pointer;line-height:1}
+.ardcb-body{flex:1;overflow-y:auto;padding:16px;background:#f7fafc;display:flex;flex-direction:column;gap:10px}
+.ardcb-msg{max-width:82%;padding:10px 13px;border-radius:13px;font-size:.88rem;line-height:1.5;white-space:pre-wrap}
+.ardcb-bot{background:#fff;border:1px solid #dde5ec;color:#0f172a;align-self:flex-start;border-bottom-left-radius:4px}
+.ardcb-user{background:#1e9e6a;color:#ffffff;align-self:flex-end;border-bottom-right-radius:4px}
+.ardcb-msg a{color:#177a52;font-weight:600}
+.ardcb-user a{color:#ffffff;text-decoration:underline}
+.ardcb-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 10px;background:#f7fafc}
+.ardcb-chip{background:#fff;border:1px solid #bfe6d5;color:#177a52;font-size:.78rem;font-weight:600;border-radius:16px;padding:6px 12px;cursor:pointer;font-family:inherit}
+.ardcb-chip:hover{background:#eafaf3}
+.ardcb-foot{border-top:1px solid #dde5ec;padding:10px;display:flex;gap:8px;background:#fff}
+.ardcb-foot input{flex:1;border:1px solid #dde5ec;border-radius:8px;padding:9px 12px;font-size:.88rem;font-family:inherit;outline:none}
+.ardcb-foot input:focus{border-color:#1e9e6a}
+.ardcb-send{background:#1e9e6a;border:none;color:#ffffff;border-radius:8px;padding:0 14px;cursor:pointer;font-size:1.05rem}
+.ardcb-send:hover{background:#177a52}
+.ardcb-note{font-size:.68rem;color:#5a6b7c;text-align:center;padding:0 16px 10px;background:#f7fafc;line-height:1.4}
+</style>
+<button id="ardcb-btn" onclick="ardcbToggle()" aria-label="Open support chat">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.04 2 11c0 2.6 1.24 4.94 3.24 6.56L4 22l4.8-1.9c1 .26 2.07.4 3.2.4 5.52 0 10-4.04 10-9S17.52 2 12 2z"/></svg>
+  <span id="ardcb-badge">Ask</span>
+</button>
+<div id="ardcb-panel" role="dialog" aria-label="990 Autopilot support chat">
+  <div class="ardcb-head">
+    <span class="ardcb-dot"></span>
+    <div><b>990 Autopilot Assistant</b><span>990-N filing, pricing &amp; deadlines</span></div>
+    <button class="ardcb-x" onclick="ardcbToggle()" aria-label="Close">&times;</button>
+  </div>
+  <div class="ardcb-body" id="ardcb-body"></div>
+  <div class="ardcb-chips" id="ardcb-chips"></div>
+  <div class="ardcb-note" id="ardcb-note"></div>
+  <div class="ardcb-foot">
+    <input id="ardcb-input" type="text" placeholder="Type your question…" autocomplete="off"
+      onkeydown="if(event.key==='Enter'){ardcbSend();}">
+    <button class="ardcb-send" onclick="ardcbSend()" aria-label="Send">&#10148;</button>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var PHONE = "";
+  var EMAIL = "support@990autopilot.com";
+  var AI_ENDPOINT = "";
+  var KB = [{"k": ["cost", "price", "fee", "how much", "pricing", "charge", "pay", "subscription", "yearly", "per year"], "a": "It’s $29 a year, flat — IRS e-file transmission, your acceptance record, a reminder before every filing, and one-click cancel, all included. No per-filing surprises. (For comparison, if a nonprofit loses its status, reinstatement runs $275+ and months of paperwork.)"}, {"k": ["eligible", "eligibility", "qualify", "who can", "can we file", "50000", "gross receipts", "small"], "a": "Most tax-exempt organizations whose gross receipts are normally $50,000 or less can file Form 990-N instead of the longer 990 or 990-EZ. “Normally” is the IRS’s 3-year average test. Churches and a few other types have special rules — email us if you’re unsure."}, {"k": ["grow", "over 50000", "past 50000", "bigger", "990-ez", "990ez", "too big"], "a": "If you grow past $50,000 you’ll need Form 990-EZ or 990 instead, which we don’t file. Our annual “anything changed?” email asks about this — if you’ve grown, we pause your subscription (no charge that year) and point you to the right filing."}, {"k": ["missed", "miss", "late", "overdue", "forgot", "behind", "revoke", "revoked", "revocation", "lost status", "penalty"], "a": "There’s no monetary penalty for filing a 990-N late — what matters is not missing three consecutive years, which triggers automatic revocation of tax-exempt status. File the current year now and the revocation clock resets. If it’s been two years, filing now stops the clock (the IRS only accepts the current and most recent prior year for 990-N)."}, {"k": ["free", "myself", "irs.gov", "on our own", "diy", "directly", "ourselves"], "a": "Yes — the IRS offers free direct filing, and we say so plainly. What the $29 buys is never having to remember it: the monitoring, the reminders, and automatic filing even when the treasurer or officers change. The form is easy; remembering it every year is the hard part."}, {"k": ["cancel", "cancellation", "stop", "unsubscribe", "quit"], "a": "One click, from any email we send you, or by emailing support. If you cancel, we don’t file or charge again — no phone calls, no retention offers."}, {"k": ["information", "info", "data", "safe", "secure", "ssn", "privacy", "sell"], "a": "We store only the 8 filing items and your filing history — nothing else. A 990-N involves no SSNs, and your EIN and organization details are already public in IRS records. We never sell data."}, {"k": ["due", "deadline", "when", "date", "fiscal", "fiscal year", "anniversary"], "a": "Your 990-N is due the 15th day of the 5th month after your fiscal year ends — so a December fiscal year means May 15. It’s different for every organization; there’s a free deadline calculator on the site that tells you yours."}, {"k": ["how", "works", "work", "process", "steps", "automatic", "setup", "what do i do", "8 questions", "how does it work", "how it works"], "a": "You answer 8 questions once (legal name, EIN, address, fiscal year) — about 5 minutes. We e-file your 990-N through an IRS-authorized provider and email you the acceptance record, usually the same day. Every year after, 45 days before your deadline, we email “anything changed?” — if nothing has, you do nothing and we file it for you."}, {"k": ["status", "revoke", "tax exempt", "why matters", "three years", "importance"], "a": "Miss your 990-N three years in a row and the IRS automatically revokes your tax-exempt status — no warning letter required. Over 60,000 organizations lost their status last year, and getting it back costs $275+ and months of paperwork. Filing on time each year prevents that."}, {"k": ["acceptance", "receipt", "confirmation", "proof", "record", "did you file"], "a": "After we e-file, you get the IRS acceptance record by email — usually the same day it’s transmitted."}, {"k": ["what is", "e-postcard", "epostcard", "what is 990", "e postcard", "postcard"], "a": "The 990-N is the IRS “e-Postcard” — the short annual filing small nonprofits use to confirm they still qualify for tax-exempt status. It’s 8 basic items, no financials. We file it for you automatically each year."}, {"k": ["government", "irs", "affiliated", "official", "law firm", "legit", "scam", "real", "who are you"], "a": "We’re a private service operated by FormRoute LLC. We transmit your 990-N through an IRS-authorized e-file provider — we’re not the IRS, and you can always file free yourself at IRS.gov. What we sell is not forgetting."}, {"k": ["human", "person", "agent", "talk", "speak", "contact", "support", "phone", "call", "email", "help"], "a": "HANDOFF"}, {"k": ["hi", "hello", "hey", "start", "good morning", "good afternoon"], "a": "Hi! I can help with pricing, eligibility, your 990-N deadline, missed filings, and how the automatic filing works. What would you like to know?"}, {"k": ["thanks", "thank you", "thx", "appreciate", "great", "ok", "okay"], "a": "Happy to help. Anything else about your 990-N?"}];
+  var STARTERS = ["How much is it?", "Are we eligible?", "When is 990-N due?", "We missed a year", "How does it work?"];
+  var GREETING = "Hi — I’m the 990 Autopilot assistant. Ask me about pricing, eligibility, your 990-N deadline, missed filings, or how the automatic filing works. I’ll point you to a person for anything I can’t answer.";
+
+  var emailLink = '<a href="mailto:'+EMAIL+'">'+EMAIL+'</a>';
+  function handoff(){
+    var s = 'For anything I can’t answer, email '+emailLink;
+    if (PHONE){ s += ' or call <a href="tel:'+PHONE.replace(/[^\d+]/g,'')+'">'+PHONE+'</a>'; }
+    return s + '. A real person will follow up.';
+  }
+  var STOP = {'the':1,'a':1,'an':1,'is':1,'are':1,'do':1,'i':1,'to':1,'of':1,'my':1,'for':1,'and':1,'it':1,'you':1,'me':1,'can':1,'what':1,'when':1,'how':1,'in':1,'on':1,'this':1};
+  function norm(s){ return (s||'').toLowerCase().replace(/[^a-z0-9$ ]/g,' ').replace(/\s+/g,' ').trim(); }
+  function best(qRaw){
+    var q = ' '+norm(qRaw)+' ';
+    var words = q.trim().split(' ').filter(function(w){return w && !STOP[w];});
+    var top=null, topScore=0;
+    KB.forEach(function(item){
+      var score=0;
+      item.k.forEach(function(key){
+        var kk = norm(key);
+        if (kk.indexOf(' ')>-1){ if (q.indexOf(' '+kk+' ')>-1 || q.indexOf(kk)>-1) score+=3; }
+        else { words.forEach(function(w){ if (w===kk) score+=2; else if (w.length>3 && (w.indexOf(kk)===0||kk.indexOf(w)===0)) score+=1; }); }
+      });
+      if (score>topScore){ topScore=score; top=item; }
+    });
+    return topScore>=2 ? top : null;
+  }
+  var bodyEl, chipsEl, noteEl, inputEl, started=false;
+  function add(text, who){
+    var d=document.createElement('div');
+    d.className='ardcb-msg '+(who==='user'?'ardcb-user':'ardcb-bot');
+    d.innerHTML = text; bodyEl.appendChild(d); bodyEl.scrollTop = bodyEl.scrollHeight;
+  }
+  function setChips(list){
+    chipsEl.innerHTML='';
+    (list||[]).forEach(function(t){
+      var b=document.createElement('button'); b.className='ardcb-chip'; b.textContent=t;
+      b.onclick=function(){ ardcbAsk(t); }; chipsEl.appendChild(b);
+    });
+  }
+  function answerLocal(q){
+    var m=best(q);
+    if(!m){ return 'I’m not sure I have that one. '+handoff(); }
+    if(m.a==='HANDOFF'){ return handoff(); }
+    return m.a.replace(/\n/g,'<br>');
+  }
+  window.ardcbAsk = function(q){
+    q=(q||'').trim(); if(!q) return;
+    add(q,'user'); inputEl.value=''; setChips([]);
+    setTimeout(function(){
+      if (AI_ENDPOINT){
+        fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({q:q})})
+          .then(function(r){return r.json();}).then(function(d){ add((d&&d.reply)?d.reply:answerLocal(q),'bot'); setChips(STARTERS); })
+          .catch(function(){ add(answerLocal(q),'bot'); setChips(STARTERS); });
+      } else { add(answerLocal(q),'bot'); setChips(STARTERS); }
+    },260);
+  };
+  window.ardcbSend = function(){ ardcbAsk(inputEl.value); };
+  window.ardcbToggle = function(){
+    var p=document.getElementById('ardcb-panel');
+    var open=p.classList.toggle('open');
+    var badge=document.getElementById('ardcb-badge'); if(badge) badge.style.display=open?'none':'block';
+    if(open && !started){
+      started=true; bodyEl=document.getElementById('ardcb-body');
+      add(GREETING,'bot'); setChips(STARTERS);
+      noteEl.innerHTML='Automated assistant · general info only, not legal or tax advice · '+emailLink;
+      inputEl.focus();
+    } else if(open){ inputEl.focus(); }
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    bodyEl=document.getElementById('ardcb-body'); chipsEl=document.getElementById('ardcb-chips');
+    noteEl=document.getElementById('ardcb-note'); inputEl=document.getElementById('ardcb-input');
+  });
+})();
+</script>
+
 </body>
 </html>
