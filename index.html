@@ -232,6 +232,9 @@
             <option value="11">November</option>
           </select>
         </div>
+        <div class="fld"><label for="taxYear">Tax year to file <small>(fiscal year ending in)</small></label>
+          <select id="taxYear"><option value="">— Select year —</option></select>
+        </div>
         <div class="fld full"><label for="street">Mailing address — street</label><input id="street" type="text" autocomplete="street-address"></div>
         <div class="fld"><label for="city">City</label><input id="city" type="text"></div>
         <div class="fld" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -329,6 +332,24 @@
     return false;
   }
 
+  // Populate the tax-year dropdown: current year down to 3 prior (fiscal-year-ending year),
+  // plus a catch-up option. Dynamic so it never goes stale.
+  (function(){
+    var sel = document.getElementById('taxYear');
+    if (!sel) return;
+    var y = new Date().getFullYear();
+    for (var i = 0; i <= 3; i++) {
+      var opt = document.createElement('option');
+      opt.value = String(y - i);
+      opt.textContent = String(y - i);
+      sel.appendChild(opt);
+    }
+    var other = document.createElement('option');
+    other.value = 'multiple';
+    other.textContent = 'Earlier / multiple years — please contact me';
+    sel.appendChild(other);
+  })();
+
   window.submitOrder = function(){
     document.getElementById('formErr').style.display = 'none';
 
@@ -337,6 +358,7 @@
       ['ein','your EIN'],
       ['street','your mailing address'], ['city','your city'], ['state','your state'], ['zip','your ZIP'],
       ['officerName','your principal officer’s name'], ['officerTitle','the officer’s title'],
+      ['taxYear','the tax year you’re filing for'],
       ['email','your email address']
     ];
     for (var i = 0; i < required.length; i++) {
@@ -356,7 +378,7 @@
     if (!document.getElementById('authorize').checked)     return fail('Please confirm you’re authorized and agree to the annual filing authorization.', 'authorize');
 
     // Compact order string — the only order token Make forwards to Stripe metadata.
-    // Format: EIN|fy_end_month|org|street|city|state|zip|officer|title|website|dba
+    // Format: EIN|fy_end_month|org|street|city|state|zip|officer|title|website|dba|tax_year
     var orderStr = [
       ein.slice(0,2) + '-' + ein.slice(2),
       document.getElementById('fyEndForm').value,
@@ -368,7 +390,8 @@
       document.getElementById('officerName').value.trim(),
       document.getElementById('officerTitle').value.trim(),
       document.getElementById('website').value.trim(),
-      document.getElementById('dba').value.trim()
+      document.getElementById('dba').value.trim(),
+      document.getElementById('taxYear').value
     ].map(function(v){ return v.replace(/\|/g, '/'); }).join('|');
 
     var payload = {
@@ -378,6 +401,7 @@
       dba:           document.getElementById('dba').value.trim(),
       ein:           ein.slice(0,2) + '-' + ein.slice(2),
       fy_end_month:  document.getElementById('fyEndForm').value,
+      tax_year:      document.getElementById('taxYear').value,
       street:        document.getElementById('street').value.trim(),
       city:          document.getElementById('city').value.trim(),
       state:         document.getElementById('state').value.trim().toUpperCase(),
