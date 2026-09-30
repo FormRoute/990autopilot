@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free 990-N Deadline & Revocation-Risk Check — 990 Autopilot</title>
+<meta name="description" content="Free 60-second check: find your nonprofit's Form 990-N deadline and see whether you're at risk of losing tax-exempt status. No login required.">
+<link rel="canonical" href="https://990autopilot.com/checker.html">
+<style>
+  :root{
+    --green:#177a52; --green2:#1e9e6a; --ink:#0d2b45; --bg:#f7fafc;
+    --line:#dde5ec; --muted:#5a6b7b; --warn:#b45309; --warnbg:#fef3e2;
+    --danger:#b91c1c; --dangerbg:#fdecea; --ok:#177a52; --okbg:#eafaf2;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+       color:var(--ink);background:var(--bg);line-height:1.6;margin:0}
+  .wrap{max-width:640px;margin:0 auto;padding:28px 20px 60px}
+  .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;
+       color:var(--green);border:1px solid var(--green);border-radius:999px;padding:4px 12px}
+  h1{font-size:26px;line-height:1.25;margin:16px 0 6px}
+  .sub{color:var(--muted);margin:0 0 22px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}
+  label{font-weight:600;display:block;margin-bottom:8px}
+  select,input[type=email]{width:100%;padding:12px 14px;font-size:16px;border:1px solid var(--line);
+       border-radius:10px;background:#fff;color:var(--ink)}
+  .radio{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .radio button{flex:1;min-width:120px;padding:11px;border:1px solid var(--line);background:#fff;
+       border-radius:10px;font-size:15px;cursor:pointer;color:var(--ink)}
+  .radio button.sel{border-color:var(--green);background:var(--okbg);font-weight:700}
+  .btn{display:inline-block;width:100%;text-align:center;background:var(--green);color:#fff;border:0;
+       padding:14px;font-size:16px;font-weight:700;border-radius:10px;cursor:pointer;text-decoration:none}
+  .btn:hover{background:#12603f}
+  .result{display:none;border-radius:12px;padding:18px;margin-top:6px;border:1px solid}
+  .result h3{margin:0 0 6px;font-size:19px}
+  .r-ok{background:var(--okbg);border-color:#bfe6d2}
+  .r-warn{background:var(--warnbg);border-color:#f3ddc0}
+  .r-danger{background:var(--dangerbg);border-color:#f6cfcb}
+  .big{font-size:22px;font-weight:800}
+  .muted{color:var(--muted);font-size:14px}
+  .capture{display:none}
+  .ok-note{display:none;color:var(--green);font-weight:600;margin-top:10px}
+  .disc{color:var(--muted);font-size:12px;line-height:1.5;margin-top:24px}
+  .step-hint{font-size:13px;color:var(--muted);margin:-4px 0 14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">990 AUTOPILOT</span>
+  <h1>Is your nonprofit's Form 990-N overdue?</h1>
+  <p class="sub">Free 60-second check. Find your deadline and see whether your tax-exempt status is at risk. No login, no EIN required.</p>
+
+  <div class="card">
+    <label for="fye">1. When does your fiscal year end?</label>
+    <div class="step-hint">Most small nonprofits use December 31. Clubs and schools often use June 30.</div>
+    <select id="fye">
+      <option value="">Select fiscal year-end month…</option>
+      <option value="1">January 31</option><option value="2">February 28/29</option>
+      <option value="3">March 31</option><option value="4">April 30</option>
+      <option value="5">May 31</option><option value="6">June 30</option>
+      <option value="7">July 31</option><option value="8">August 31</option>
+      <option value="9">September 30</option><option value="10">October 31</option>
+      <option value="11">November 30</option><option value="12">December 31</option>
+    </select>
+  </div>
+
+  <div class="card" id="q2card" style="display:none">
+    <label>2. Have you filed a 990-N (e-Postcard) for each of the last 3 years?</label>
+    <div class="step-hint">Miss it 3 years in a row and the IRS <b>automatically revokes</b> your tax-exempt status.</div>
+    <div class="radio" id="filed">
+      <button data-v="yes">Yes, all 3</button>
+      <button data-v="some">Missed 1–2</button>
+      <button data-v="no">Missed 3+ / not sure</button>
+    </div>
+  </div>
+
+  <div class="result" id="result">
+    <h3 id="r-title"></h3>
+    <div id="r-body"></div>
+  </div>
+
+  <div class="card capture" id="capture">
+    <label for="email">Get a free reminder before your deadline</label>
+    <div class="step-hint">We'll email you before your 990-N is due — and show you how to never miss it again.</div>
+    <input type="email" id="email" placeholder="you@yournonprofit.org" autocomplete="email">
+    <div style="height:10px"></div>
+    <button class="btn" id="capBtn">Email me my deadline reminder</button>
+    <div class="ok-note" id="okNote">✓ Done — check your inbox. Want it fully hands-off? See 990 Autopilot below.</div>
+    <div style="height:12px"></div>
+    <a class="btn" style="background:var(--ink)" href="https://990autopilot.com/#file">File it for me automatically — $29/yr →</a>
+  </div>
+
+  <p class="disc">
+    990 Autopilot is a service of FormRoute LLC. We are a filing service — not a law firm, CPA firm, or tax
+    advisor, and we are not affiliated with the IRS or any government agency. Form 990-N can be filed at no cost
+    directly with the IRS at irs.gov. This checker gives general deadline information based on the fiscal year-end
+    you enter and the standard rule (Form 990-N is due the 15th day of the 5th month after your tax year ends);
+    it does not access your IRS records and is not tax or legal advice. Eligibility to file Form 990-N (including
+    the $50,000 gross-receipts test) is determined and confirmed by you.
+  </p>
+</div>
+
+<script>
+// Configure: a Make webhook that adds {email, fye, deadline, risk} to a Brevo lead list.
+// (Do NOT use the order webhook here — this only captures a lead, it must not start checkout.)
+window.LEAD_WEBHOOK_URL = 'https://hook.us2.make.com/blq0s5nj885skl8r4bmojy8bc4ys0ina';
+
+var MONTHS=['','January','February','March','April','May','June','July','August','September','October','November','December'];
+var state={fye:null,filed:null,deadline:null,risk:null};
+
+function nthDeadline(fyeMonth){
+  // 990-N due = 15th day of the 5th month AFTER the tax-year-end month.
+  var dueMonth=((fyeMonth+5-1)%12)+1;          // 1..12
+  var today=new Date(); var y=today.getFullYear();
+  var d=new Date(y, dueMonth-1, 15);
+  if(d < new Date(today.getFullYear(),today.getMonth(),today.getDate())) d=new Date(y+1,dueMonth-1,15);
+  return d;
+}
+function fmt(d){return MONTHS[d.getMonth()+1]+' '+d.getDate()+', '+d.getFullYear();}
+function isoDate(d){return d?d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'):'';}
+function daysUntil(d){return Math.round((d-new Date())/86400000);}
+
+function render(){
+  if(!state.fye) return;
+  state.deadline=nthDeadline(state.fye);
+  document.getElementById('q2card').style.display='block';
+  if(!state.filed) return;
+
+  var res=document.getElementById('result'), t=document.getElementById('r-title'), b=document.getElementById('r-body');
+  var dl=fmt(state.deadline), du=daysUntil(state.deadline);
+  res.style.display='block'; res.className='result';
+  document.getElementById('capture').style.display='block';
+
+  if(state.filed==='no'){
+    state.risk='high';
+    res.classList.add('r-danger');
+    t.textContent='⚠ Your tax-exempt status may already be at risk';
+    b.innerHTML='Missing Form 990-N for <b>3 years in a row triggers automatic revocation</b> of your '+
+      'tax-exempt status by the IRS. If that has happened, donations may no longer be tax-deductible and you may '+
+      'need to apply for reinstatement.<br><br>Your next 990-N deadline: <span class="big">'+dl+'</span> '+
+      '<span class="muted">('+du+' days away)</span><br><br>Don\'t risk another missed year — see below.';
+  } else if(state.filed==='some'){
+    state.risk='warn';
+    res.classList.add('r-warn');
+    t.textContent='You have some catching up to do';
+    b.innerHTML='Every missed year counts toward the 3-year automatic-revocation rule. File any open years and '+
+      'get current.<br><br>Your next 990-N deadline: <span class="big">'+dl+'</span> '+
+      '<span class="muted">('+du+' days away)</span>';
+  } else {
+    state.risk='ok';
+    res.classList.add('r-ok');
+    t.textContent='You\'re on track — here\'s your next deadline';
+    b.innerHTML='Your next Form 990-N is due <span class="big">'+dl+'</span> '+
+      '<span class="muted">('+du+' days away)</span>.<br><br>The easiest way to keep a clean record is to never '+
+      'have to remember it. See how 990 Autopilot files it for you every year, below.';
+  }
+}
+
+document.getElementById('fye').addEventListener('change',function(e){
+  state.fye=e.target.value?parseInt(e.target.value,10):null; state.filed=null;
+  document.querySelectorAll('#filed button').forEach(function(x){x.classList.remove('sel')});
+  document.getElementById('result').style.display='none';
+  document.getElementById('capture').style.display='none';
+  render();
+});
+document.querySelectorAll('#filed button').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('#filed button').forEach(function(x){x.classList.remove('sel')});
+    btn.classList.add('sel'); state.filed=btn.getAttribute('data-v'); render();
+  });
+});
+document.getElementById('capBtn').addEventListener('click',function(){
+  var email=document.getElementById('email').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){alert('Please enter a valid email.');return;}
+  var payload={email:email, fye_month:state.fye, deadline:state.deadline?fmt(state.deadline):'',
+               deadline_iso:isoDate(state.deadline), risk:state.risk, source:'checker'};
+  if(window.LEAD_WEBHOOK_URL){
+    fetch(window.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)}).catch(function(){});
+  }
+  document.getElementById('okNote').style.display='block';
+  document.getElementById('capBtn').style.display='none';
+});
+</script>
+</body>
+</html>
