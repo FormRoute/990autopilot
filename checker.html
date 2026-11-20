@@ -81,7 +81,7 @@
 
   <div class="card capture" id="capture">
     <label for="email">Get a free reminder before your deadline</label>
-    <div class="step-hint">We'll email you before your 990-N is due — and show you how to never miss it again.</div>
+    <div class="step-hint" id="capHint">We'll email you before your 990-N is due — and show you how to never miss it again.</div>
     <input type="email" id="email" placeholder="you@yournonprofit.org" autocomplete="email">
     <div style="height:10px"></div>
     <button class="btn" id="capBtn">Email me my deadline reminder</button>
@@ -130,6 +130,10 @@ function render(){
   var dl=fmt(state.deadline), du=daysUntil(state.deadline);
   res.style.display='block'; res.className='result';
   document.getElementById('capture').style.display='block';
+  var ch=document.getElementById('capHint');
+  if(ch){ ch.innerHTML = (state.filed==='ok')
+    ? 'We\'ll remind you before your <b>'+dl+'</b> deadline — '+du+' days away.'
+    : 'Your next deadline is <b>'+dl+'</b> ('+du+' days away). We\'ll remind you — and show you how to never miss it again.'; }
 
   if(state.filed==='no'){
     state.risk='high';
@@ -138,7 +142,9 @@ function render(){
     b.innerHTML='Missing Form 990-N for <b>3 years in a row triggers automatic revocation</b> of your '+
       'tax-exempt status by the IRS. If that has happened, donations may no longer be tax-deductible and you may '+
       'need to apply for reinstatement.<br><br>Your next 990-N deadline: <span class="big">'+dl+'</span> '+
-      '<span class="muted">('+du+' days away)</span><br><br>Don\'t risk another missed year — see below.';
+      '<span class="muted">('+du+' days away)</span><br><br>Don\'t risk another missed year — see below.'+
+      '<div class="muted" style="margin-top:12px">Think you may already be revoked? '+
+      '<a href="/guide-reinstate-990n.html"><b>See how reinstatement works →</b></a></div>';
   } else if(state.filed==='some'){
     state.risk='warn';
     res.classList.add('r-warn');
