@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>501(c)(3) Application Intake — 990 Autopilot</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{--navy:#0d2b45;--navy2:#123a5e;--green:#1e9e6a;--green-d:#177a52;--amber:#b45309;--amber-bg:#fef3e2;--danger:#b91c1c;--dangerbg:#fdecea;--okbg:#eafaf2;--ink:#1a2733;--mut:#5b6b7a;--line:#e3e9ef;--bg:#f7fafc;--card:#fff;--rad:12px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .wrap{max-width:680px;margin:0 auto;padding:28px 20px 70px}
+  .logo{font-weight:800;font-size:1.15rem;color:var(--navy);text-decoration:none;display:inline-block;margin-bottom:18px}
+  .logo span{color:var(--green)}
+  h1{font-size:1.7rem;color:var(--navy);font-weight:800;margin-bottom:8px}
+  .lede{color:var(--mut);margin-bottom:8px}
+  .step{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--green-d);margin:28px 0 10px;text-transform:uppercase}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--rad);padding:20px;margin-bottom:14px}
+  label{font-weight:600;display:block;margin-bottom:6px;font-size:.96rem}
+  .hint{font-size:13px;color:var(--mut);margin:-2px 0 10px}
+  input,select,textarea{width:100%;padding:11px 13px;font-size:16px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font-family:inherit}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:190px}
+  .q{margin-bottom:18px}
+  .chk{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .chk button{flex:1;min-width:90px;padding:10px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:14px;cursor:pointer;color:var(--ink)}
+  .chk button.sel{border-color:var(--green);background:var(--okbg);font-weight:700}
+  .verdict{display:none;border-radius:10px;padding:16px;margin-top:8px;border:1px solid;font-size:.97rem}
+  .v-ok{background:var(--okbg);border-color:#bfe6d2}
+  .v-warn{background:var(--amber-bg);border-color:#f3ddc0}
+  .v-no{background:var(--dangerbg);border-color:#f6cfcb}
+  .att{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;color:var(--ink)}
+  .att input{width:auto;margin-top:4px}
+  .btn{display:inline-block;width:100%;text-align:center;background:var(--green);color:#fff;border:0;padding:14px;font-size:16px;font-weight:700;border-radius:10px;cursor:pointer}
+  .btn:hover{background:var(--green-d)}
+  .okNote{display:none;color:var(--green-d);font-weight:600;margin-top:12px;text-align:center}
+  .disc{color:var(--mut);font-size:12px;line-height:1.55;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="logo" href="/">990<span>Autopilot</span></a>
+  <h1>Your 501(c)(3) application — intake</h1>
+  <p class="lede">A few questions so we can prepare your Form 1023-EZ. Takes about 10 minutes. We'll review and follow up with next steps — you only pay once we confirm we can help.</p>
+  <p class="hint">Please don't enter Social Security numbers or bank details anywhere on this form. We'll request your formation documents separately through a secure link.</p>
+
+  <div class="step">1 · Is the fast 1023-EZ a fit?</div>
+  <div class="card">
+    <div class="q"><label>Do you expect annual gross receipts of $50,000 or less for the next 3 years?</label>
+      <div class="chk" data-q="recF"><button data-v="yes">Yes</button><button data-v="no">No / unsure</button></div></div>
+    <div class="q"><label>Were your gross receipts $50,000 or less in each of the past 3 years (or are you brand new)?</label>
+      <div class="chk" data-q="recP"><button data-v="yes">Yes / new</button><button data-v="no">No</button></div></div>
+    <div class="q"><label>Are your total assets under $250,000?</label>
+      <div class="chk" data-q="assets"><button data-v="yes">Yes</button><button data-v="no">No / unsure</button></div></div>
+    <div class="q"><label>Is the organization any of these: a church, school/college, hospital or medical-research org, HMO, private foundation, or a "supporting organization" for another nonprofit?</label>
+      <div class="chk" data-q="excluded"><button data-v="no">None of these</button><button data-v="yes">Yes, one of these</button></div></div>
+    <div class="q"><label>Is it formed in the U.S. and does it already have its own EIN?</label>
+      <div class="hint">The EIN is a free federal ID number. If you don't have one yet, choose "Not yet" — we'll point you to it.</div>
+      <div class="chk" data-q="formed"><button data-v="yes">Yes, have EIN</button><button data-v="no">Not yet</button></div></div>
+    <div class="q"><label>What is the legal structure?</label>
+      <div class="chk" data-q="entity"><button data-v="corp">Nonprofit corporation</button><button data-v="assoc">Unincorporated assoc.</button><button data-v="trust">Trust</button><button data-v="llc">LLC</button></div></div>
+    <div class="q"><label>Do your Articles of Incorporation include a 501(c)(3) purpose clause AND a dissolution clause (assets go to another tax-exempt org if you close)?</label>
+      <div class="chk" data-q="articles"><button data-v="yes">Yes</button><button data-v="unsure">Not sure</button><button data-v="no">No</button></div></div>
+    <div class="q"><label>Will most of your funding come from a single family, person, or source (rather than the general public or many donors)?</label>
+      <div class="chk" data-q="funding"><button data-v="no">Broad / public support</button><button data-v="yes">Mostly one source</button></div></div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+
+  <div class="step">2 · Organization basics</div>
+  <div class="card">
+    <div class="row">
+      <div><label for="org">Exact legal name</label><input id="org" placeholder="As written on your Articles"></div>
+      <div><label for="ein">EIN (if you have one)</label><input id="ein" placeholder="12-3456789"></div>
+    </div>
+    <div style="height:12px"></div>
+    <div class="row">
+      <div><label for="state">State of formation</label><select id="state"><option value="">Select…</option></select></div>
+      <div><label for="formed_date">Date formed (approx.)</label><input id="formed_date" placeholder="MM/YYYY"></div>
+    </div>
+    <div style="height:12px"></div>
+    <label for="address">Mailing address</label><input id="address" placeholder="Street, City, State, ZIP">
+  </div>
+
+  <div class="step">3 · Who's running it</div>
+  <div class="card">
+    <div class="hint">List your directors/officers (most 501(c)(3)s have at least three unrelated directors). Names and titles only.</div>
+    <div class="row"><div><label>Name 1</label><input id="o1n"></div><div><label>Title</label><input id="o1t" placeholder="e.g. President"></div></div>
+    <div style="height:10px"></div>
+    <div class="row"><div><label>Name 2</label><input id="o2n"></div><div><label>Title</label><input id="o2t"></div></div>
+    <div style="height:10px"></div>
+    <div class="row"><div><label>Name 3</label><input id="o3n"></div><div><label>Title</label><input id="o3t"></div></div>
+  </div>
+
+  <div class="step">4 · What you do</div>
+  <div class="card">
+    <label for="mission">Describe your mission and main activities (2–4 sentences)</label>
+    <div class="hint">What does the organization do, for whom, and how? We'll shape this into the application and map it to the right activity code.</div>
+    <textarea id="mission" rows="5" placeholder="Our organization…"></textarea>
+    <div style="height:12px"></div>
+    <label for="contact_name">Your name &amp; role</label>
+    <div class="row"><div><input id="contact_name" placeholder="First and last"></div><div><input id="contact_role" placeholder="e.g. Founder / Treasurer"></div></div>
+    <div style="height:12px"></div>
+    <div class="row">
+      <div><label for="email">Email</label><input id="email" type="email" placeholder="you@example.org"></div>
+      <div><label for="phone">Phone (optional)</label><input id="phone" type="tel"></div>
+    </div>
+  </div>
+
+  <div class="step">5 · Confirm</div>
+  <div class="card">
+    <label class="att"><input type="checkbox" id="attest">
+      <span>The answers above are accurate to the best of my knowledge, and the revenue/asset estimates and facts about the organization are my responsibility. I understand 990 Autopilot (FormRoute LLC) is a filing and preparation service — not a law firm, CPA firm, or tax advisor — and that the final Form 1023-EZ is submitted and signed by an officer of our organization at Pay.gov under penalty of perjury.</span></label>
+    <div style="height:16px"></div>
+    <button class="btn" id="submitBtn">Submit intake →</button>
+    <div class="okNote" id="okNote">✓ Received. We'll review your details and email you with next steps — usually within a business day. Thank you!</div>
+  </div>
+
+  <p class="disc">
+    990 Autopilot is a service of FormRoute LLC. We are a filing and preparation service — not a law firm, CPA firm, or tax advisor, and we are not affiliated with the IRS or any government agency. Eligibility to use Form 1023-EZ is set by the IRS, can change, and is confirmed by you; the $275 IRS user fee is set and collected by the IRS at Pay.gov and is non-refundable. Submitting this intake does not create an obligation — we review eligibility first and only proceed once we confirm we can help. This form is general information, not legal or tax advice.
+  </p>
+</div>
+
+<script>
+// EJ: create a Make webhook that stores the intake + computed eligibility verdict (e.g. to a Brevo "1023EZ intake" list or a data store),
+// then paste its URL below. Lead/intake capture only — must not start any checkout or payment.
+window.INTAKE_WEBHOOK_URL = 'https://hook.us2.make.com/mesoiedtsqpsotlt8djan9a9gj249q3t';
+
+var STATES=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+var sel=document.getElementById('state');
+STATES.forEach(function(s){var o=document.createElement('option');o.textContent=s;sel.appendChild(o);});
+
+var e={recF:null,recP:null,assets:null,excluded:null,formed:null,entity:null,articles:null,funding:null};
+document.querySelectorAll('.chk').forEach(function(g){
+  var q=g.getAttribute('data-q');
+  g.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click',function(){
+      g.querySelectorAll('button').forEach(function(x){x.classList.remove('sel');});
+      b.classList.add('sel'); e[q]=b.getAttribute('data-v'); verdict();
+    });
+  });
+});
+
+function computeVerdict(){
+  // core answered?
+  var core=['recF','recP','assets','excluded','formed','entity','articles','funding'];
+  if(core.some(function(k){return e[k]===null;})) return null;
+  var fails=[], flags=[];
+  if(e.recF==='no') fails.push('Projected gross receipts may exceed $50,000 — the full Form 1023 would apply.');
+  if(e.recP==='no') fails.push('Past gross receipts exceeded $50,000 — the full Form 1023 would apply.');
+  if(e.assets==='no') fails.push('Total assets of $250,000 or more make the 1023-EZ unavailable.');
+  if(e.excluded==='yes') fails.push('Churches, schools, hospitals, HMOs, private foundations, and supporting organizations can\'t use the 1023-EZ.');
+  if(e.articles==='no') fails.push('Your Articles are missing the required purpose and/or dissolution clause — that must be fixed with your state before applying.');
+  if(e.entity==='llc') flags.push('LLC applicants have special IRS conditions — we\'ll confirm yours qualifies.');
+  if(e.articles==='unsure') flags.push('We\'ll review your Articles for the required clauses.');
+  if(e.funding==='yes') flags.push('Funding from mostly one source can affect public-charity status — we\'ll check this.');
+  if(e.formed==='no') flags.push('You\'ll need an EIN first (it\'s free) — we\'ll point you to it.');
+  if(fails.length) return {k:'no',fails:fails,flags:flags};
+  if(flags.length) return {k:'warn',flags:flags};
+  return {k:'ok'};
+}
+function verdict(){
+  var r=computeVerdict(); if(!r) return;
+  var v=document.getElementById('verdict'); v.style.display='block';
+  if(r.k==='no'){
+    v.className='verdict v-no';
+    v.innerHTML='<b>This organization may not be eligible for the streamlined 1023-EZ.</b><br>'+r.fails.join('<br>')+'<br><br>That\'s okay — finish the form anyway and we\'ll advise on the right path (often the full Form 1023) before you pay anything to the IRS.';
+  } else if(r.k==='warn'){
+    v.className='verdict v-warn';
+    v.innerHTML='<b>Looks promising — with a couple of things for us to confirm:</b><br>'+r.flags.join('<br>')+'<br><br>Go ahead and finish the form; we\'ll review these and confirm before proceeding.';
+  } else {
+    v.className='verdict v-ok';
+    v.innerHTML='<b>Your organization looks eligible for the streamlined 1023-EZ.</b> Finish the form below and we\'ll take it from here.';
+  }
+}
+
+document.getElementById('submitBtn').addEventListener('click',function(){
+  var org=document.getElementById('org').value.trim();
+  var email=document.getElementById('email').value.trim();
+  if(!org){alert('Please enter your organization\'s legal name.');return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){alert('Please enter a valid email.');return;}
+  if(!document.getElementById('attest').checked){alert('Please confirm the statement in step 5 before submitting.');return;}
+  var r=computeVerdict();
+  var payload={
+    org:org, ein:document.getElementById('ein').value.trim(),
+    state:document.getElementById('state').value, formed_date:document.getElementById('formed_date').value.trim(),
+    address:document.getElementById('address').value.trim(),
+    officers:[
+      {name:document.getElementById('o1n').value.trim(),title:document.getElementById('o1t').value.trim()},
+      {name:document.getElementById('o2n').value.trim(),title:document.getElementById('o2t').value.trim()},
+      {name:document.getElementById('o3n').value.trim(),title:document.getElementById('o3t').value.trim()}
+    ],
+    mission:document.getElementById('mission').value.trim(),
+    contact_name:document.getElementById('contact_name').value.trim(),
+    contact_role:document.getElementById('contact_role').value.trim(),
+    email:email, phone:document.getElementById('phone').value.trim(),
+    eligibility_answers:e, eligibility_verdict:(r?r.k:null), attested:true, source:'nonprofit-intake'
+  };
+  if(window.INTAKE_WEBHOOK_URL){
+    fetch(window.INTAKE_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
+  }
+  document.getElementById('okNote').style.display='block';
+  document.getElementById('submitBtn').style.display='none';
+});
+</script>
+</body>
+</html>
