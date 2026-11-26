@@ -113,6 +113,15 @@
     <div style="height:16px"></div>
     <button class="btn" id="submitBtn">Submit intake →</button>
     <div class="okNote" id="okNote">✓ Received. We'll review your details and email you with next steps — usually within a business day. Thank you!</div>
+    <div id="payPanel" style="display:none;margin-top:4px">
+      <div style="background:var(--okbg);border:1px solid #bfe6d2;border-radius:10px;padding:16px;margin-bottom:14px;font-size:.97rem">
+        <b>✓ Received — and your organization looks eligible for the 1023-EZ.</b><br>You can get started right now by choosing an option below. We'll do a final review of your formation documents before filing; if anything would block your application, you'll get a <b>full refund</b> — we only pay the IRS fee once we've confirmed you're good to file.
+      </div>
+      <a class="btn" id="payStd" href="https://buy.stripe.com/28E4gybbo1GFeSV2nj4gg03" target="_blank" rel="noopener">Get started — Standard · $549 all-in</a>
+      <div style="height:10px"></div>
+      <a class="btn" id="payExp" href="https://buy.stripe.com/6oU9ASdjwetrcKN1jf4gg04" target="_blank" rel="noopener" style="background:var(--navy)">Rush it — Expedited · $649 (2 business days)</a>
+      <div class="hint" style="margin-top:10px">Each price includes our preparation &amp; filing fee and the $275 IRS user fee — one payment, nothing else to pay.</div>
+    </div>
   </div>
 
   <p class="disc">
@@ -198,8 +207,12 @@ document.getElementById('submitBtn').addEventListener('click',function(){
   if(window.INTAKE_WEBHOOK_URL){
     fetch(window.INTAKE_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
   }
-  document.getElementById('okNote').style.display='block';
   document.getElementById('submitBtn').style.display='none';
+  if(r && r.k==='ok'){
+    document.getElementById('payPanel').style.display='block';
+  } else {
+    document.getElementById('okNote').style.display='block';
+  }
 });
 </script>
 </body>
